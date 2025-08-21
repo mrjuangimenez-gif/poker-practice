@@ -5,6 +5,7 @@ const btnOpenRange = [
   'AKo','AQo','AJo','ATo','KQs','KJs','KTs','QJs','QTs','JTs','T9s','98s','87s','76s','65s','54s'
 ];
 
+// Generar nueva mano aleatoria
 function newHand() {
   // Generar mano aleatoria
   const hand = generateRandomHand();
@@ -17,17 +18,17 @@ function newHand() {
   document.getElementById('flop2').textContent = flop[1];
   document.getElementById('flop3').textContent = flop[2];
   
-  // Resetear turn/river
-  document.getElementById('turn').textContent = '?';
-  document.getElementById('river').textContent = '?';
-  
+  // Resetear feedback
   document.getElementById('feedback-text').textContent = 'Elige una acción...';
 }
 
+// Evaluar decisión del jugador
 function makeDecision(action) {
   const card1 = document.getElementById('card1').textContent;
   const card2 = document.getElementById('card2').textContent;
-  const hand = card1 + card2;
+  
+  // Crear notación de mano (ej: "AKs")
+  const hand = card1[0] + card2[0] + (card1[1] === card2[1] ? 's' : 'o');
   
   let feedback = '';
   
@@ -53,7 +54,11 @@ function generateRandomHand() {
   const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
   const suits = ['s','h','d','c'];
   
-  const randomCard = () => ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
+  const randomCard = () => {
+    const rank = ranks[Math.floor(Math.random() * ranks.length)];
+    const suit = suits[Math.floor(Math.random() * suits.length)];
+    return rank + suit;
+  };
   
   return [randomCard(), randomCard()];
 }
@@ -64,10 +69,14 @@ function generateRandomFlop() {
   
   const flop = [];
   for (let i = 0; i < 3; i++) {
-    flop.push(ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)]);
+    const rank = ranks[Math.floor(Math.random() * ranks.length)];
+    const suit = suits[Math.floor(Math.random() * suits.length)];
+    flop.push(rank + suit);
   }
   return flop;
 }
 
-// Inicializar
-newHand();
+// Ejecutar al cargar la página
+window.onload = function() {
+  newHand();
+};
