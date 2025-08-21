@@ -26,19 +26,18 @@ h1 {
   padding: 15px;
   border-radius: 5px;
   margin: 20px 0;
+  font-size: 18px;
 }
 
-.card {
+.hand-info span {
   display: inline-block;
-  width: 40px;
-  height: 25px;
   background: white;
   border-radius: 3px;
   color: black;
   font-weight: bold;
   margin: 0 2px;
-  padding: 2px;
-  text-align: center;
+  padding: 2px 5px;
+  min-width: 30px;
 }
 
 .actions {
