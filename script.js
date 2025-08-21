@@ -1,41 +1,28 @@
-// Rango predefinido simple para practicar
-const bestHands = ['AA','KK','QQ','AKs','AQs'];
-
-// Generar nueva mano aleatoria
-function newHand() {
-  const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
-  const suits = ['♠','♥','♦','♣'];
-
-  // Generar dos cartas aleatorias
-  let card1 = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
-  let card2 = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
-  document.getElementById('player-cards').textContent = card1 + ' ' + card2;
-
-  // Generar flop
-  let flop = [];
-  for(let i=0; i<3; i++){
-    let card = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
-    flop.push(card);
-  }
-  document.getElementById('flop-cards').textContent = flop.join(' ');
-
-  // Limpiar feedback
-  document.getElementById('feedback-text').textContent = 'Elige una acción para recibir feedback';
-}
+// Rangos predefinidos más avanzados (ejemplo para preflop desde BTN)
+const ranges = {
+  openRaise: ['AA','KK','QQ','JJ','TT','99','88','77','66','55','44','33','22','AKs','AQs','AJs','ATs','A9s','A8s','A7s','A6s','A5s','A4s','A3s','A2s','AKo','AQo','AJo','ATo','KQs','KJs','KTs','QJs','QTs','JTs','T9s','98s','87s','76s','65s','54s'],
+  fold: ['72o','83o','94o','T5o','J6o','Q7o','K8o','A9o'] // Manos muy débiles
+};
 
 // Evaluar decisión del jugador
-function makeDecision(action){
-  let cards = document.getElementById('player-cards').textContent.replace(/\s/g,'');
-  
+function makeDecision(action) {
+  let cards = document.getElementById('player-cards').textContent.replace(/\s/g, '');
   let feedback = '';
-  if(bestHands.includes(cards)){
-    feedback = (action === 'raise') ? '¡Correcto! Buena subida.' : 'Podrías subir con esta mano.';
+
+  // Lógica mejorada
+  if (ranges.openRaise.includes(cards)) {
+    feedback = (action === 'raise') 
+      ? '✅ ¡Óptimo! Debes abrir raise con esta mano desde BTN.' 
+      : '❌ Deberías hacer raise, no ' + action + '.';
+  } else if (ranges.fold.includes(cards)) {
+    feedback = (action === 'fold')
+      ? '✅ Buen fold. Esta mano es muy débil para jugar.'
+      : '❌ Esta mano es un fold claro. No deberías jugarla.';
   } else {
-    feedback = (action === 'fold') ? '¡Correcto! Buen fold.' : 'Esta mano es débil, tal vez fold sería mejor.';
+    feedback = (action === 'fold')
+      ? '✅ Fold aceptable. Pero podrías considerar call/raise en algunos spots.'
+      : '✅ Jugada estándar.';
   }
 
   document.getElementById('feedback-text').textContent = feedback;
 }
-
-// Inicializar mano al cargar la página
-newHand();
