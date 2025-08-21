@@ -1,82 +1,47 @@
-// Rangos GTO simplificados para BTN open
-const btnOpenRange = [
-  'AA','KK','QQ','JJ','TT','99','88','77','66','55','44','33','22',
-  'AKs','AQs','AJs','ATs','A9s','A8s','A7s','A6s','A5s','A4s','A3s','A2s',
-  'AKo','AQo','AJo','ATo','KQs','KJs','KTs','QJs','QTs','JTs','T9s','98s','87s','76s','65s','54s'
-];
+// Rango predefinido simple para practicar
+const bestHands = ['AA','KK','QQ','AKs','AQs'];
 
 // Generar nueva mano aleatoria
 function newHand() {
-  // Generar mano aleatoria
-  const hand = generateRandomHand();
-  document.getElementById('card1').textContent = hand[0];
-  document.getElementById('card2').textContent = hand[1];
-  
-  // Generar flop aleatorio
-  const flop = generateRandomFlop();
-  document.getElementById('flop1').textContent = flop[0];
-  document.getElementById('flop2').textContent = flop[1];
-  document.getElementById('flop3').textContent = flop[2];
-  
-  // Resetear feedback
-  document.getElementById('feedback-text').textContent = 'Elige una acción...';
+  const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+  const suits = ['s','h','d','c'];
+
+  // Generar dos cartas aleatorias
+  let card1 = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
+  let card2 = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
+  document.getElementById('player-cards').textContent = card1 + ' ' + card2;
+
+  // Generar flop
+  let flop = [];
+  for(let i=0; i<3; i++){
+    let card = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * suits.length)];
+    flop.push(card);
+  }
+  document.getElementById('flop-cards').textContent = flop.join(' ');
+
+  // Limpiar feedback
+  document.getElementById('feedback-text').textContent = 'Elige una acción para recibir feedback';
 }
 
 // Evaluar decisión del jugador
-function makeDecision(action) {
-  const card1 = document.getElementById('card1').textContent;
-  const card2 = document.getElementById('card2').textContent;
-  
-  // Crear notación de mano (ej: "AKs")
-  const hand = card1[0] + card2[0] + (card1[1] === card2[1] ? 's' : 'o');
+function makeDecision(action){
+  let cards = document.getElementById('player-cards').textContent;
+  // Convertir a formato de rango (ej: "As Kh" → "AKo")
+  let card1 = cards.split(' ')[0];
+  let card2 = cards.split(' ')[1];
+  let handNotation = card1[0] + card2[0] + (card1[1] === card2[1] ? 's' : 'o');
   
   let feedback = '';
-  
-  if (btnOpenRange.includes(hand)) {
-    if (action === 'raise') {
-      feedback = '✅ Correcto! Esta mano está en el rango de open raise desde BTN.';
-    } else {
-      feedback = '❌ Error! Deberías hacer raise con esta mano desde BTN.';
-    }
+  if(bestHands.includes(handNotation)){
+    feedback = (action === 'raise') ? '✅ ¡Correcto! Buena subida.' : '❌ Podrías subir con esta mano.';
   } else {
-    if (action === 'fold') {
-      feedback = '✅ Correcto! Fold está bien con esta mano marginal.';
-    } else {
-      feedback = '❌ Peligro! Esta mano no es lo suficientemente fuerte para jugar desde BTN.';
-    }
+    feedback = (action === 'fold') ? '✅ ¡Correcto! Buen fold.' : '❌ Esta mano es débil, tal vez fold sería mejor.';
   }
-  
+
   document.getElementById('feedback-text').textContent = feedback;
 }
 
-// Funciones auxiliares
-function generateRandomHand() {
-  const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
-  const suits = ['s','h','d','c'];
-  
-  const randomCard = () => {
-    const rank = ranks[Math.floor(Math.random() * ranks.length)];
-    const suit = suits[Math.floor(Math.random() * suits.length)];
-    return rank + suit;
-  };
-  
-  return [randomCard(), randomCard()];
-}
-
-function generateRandomFlop() {
-  const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
-  const suits = ['s','h','d','c'];
-  
-  const flop = [];
-  for (let i = 0; i < 3; i++) {
-    const rank = ranks[Math.floor(Math.random() * ranks.length)];
-    const suit = suits[Math.floor(Math.random() * suits.length)];
-    flop.push(rank + suit);
-  }
-  return flop;
-}
-
-// Ejecutar al cargar la página
+// Inicializar mano al cargar la página
 window.onload = function() {
   newHand();
 };
