@@ -2,29 +2,47 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Simulador de Poker - Práctica</title>
+  <title>Poker Practice Wizard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Simulador de Poker - Práctica</h1>
-  
-  <div id="hand">
-    <p>Tus cartas: <span id="player-cards">--</span></p>
-    <p>Flop: <span id="flop-cards">--</span></p>
+  <div class="container">
+    <h1>Poker Practice Wizard</h1>
+    
+    <!-- Tablero -->
+    <div class="board">
+      <div class="pot">Pot: 100</div>
+      <div class="cards-board">
+        <div class="card" id="flop1">?</div>
+        <div class="card" id="flop2">?</div>
+        <div class="card" id="flop3">?</div>
+        <div class="card" id="turn">?</div>
+        <div class="card" id="river">?</div>
+      </div>
+    </div>
+
+    <!-- Tus cartas -->
+    <div class="player-cards">
+      <div class="card" id="card1">?</div>
+      <div class="card" id="card2">?</div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="actions">
+      <button onclick="makeDecision('fold')">Fold</button>
+      <button onclick="makeDecision('call')">Call 50</button>
+      <button onclick="makeDecision('raise')">Raise to 150</button>
+    </div>
+
+    <!-- Feedback -->
+    <div class="feedback">
+      <p id="feedback-text">Elige una acción...</p>
+    </div>
+
+    <button onclick="newHand()">Nuevo Spot</button>
   </div>
 
-  <div id="actions">
-    <button onclick="makeDecision('fold')">Fold</button>
-    <button onclick="makeDecision('call')">Call</button>
-    <button onclick="makeDecision('raise')">Raise</button>
-  </div>
-
-  <div id="feedback">
-    <p id="feedback-text">Elige una acción para recibir feedback</p>
-  </div>
-
-  <button onclick="newHand()">Nueva mano</button>
-
+  <script src="https://cdn.jsdelivr.net/npm/deck-of-cards@0.1.8/dist/deck.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
