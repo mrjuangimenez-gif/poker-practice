@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Poker - Práctica</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Simulador de Poker - Práctica</h1>
+  
+  <div id="hand">
+    <p>Tus cartas: <span id="player-cards">--</span></p>
+    <p>Flop: <span id="flop-cards">--</span></p>
+  </div>
+
+  <div id="actions">
+    <button onclick="makeDecision('fold')">Fold</button>
+    <button onclick="makeDecision('call')">Call</button>
+    <button onclick="makeDecision('raise')">Raise</button>
+  </div>
+
+  <div id="feedback">
+    <p id="feedback-text">Elige una acción para recibir feedback</p>
+  </div>
+
+  <button onclick="newHand()">Nueva mano</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
